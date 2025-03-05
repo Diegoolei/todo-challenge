@@ -1,37 +1,90 @@
-# Invera ToDo-List Challenge (Python/Django Jr-SSr)
+# Project Title
+A short description of your project goes here.
 
-El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
+## Table of Contents
+- [Project Title](#project-title)
+  - [Table of Contents](#table-of-contents)
+  - [Non Dockerized Installation](#non-dockerized-installation)
+  - [Non Dockerized Usage](#non-dockerized-usage)
+  - [Dockerized installation](#dockerized-installation)
+  - [Dockerized Usage](#dockerized-usage)
+  - [Contributing](#contributing)
+  - [License](#license)
 
-## Qué queremos que hagas:
+## Non Dockerized Installation
+0. Prequisites:
+ - PostgreSQL
+ - Virtual enviroment
 
-- El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.
-- La entrega del resultado será en un nuevo fork de este repo y deberás hacer una pequeña demo del funcionamiento y desarrollo del proyecto ante un super comité de las más grandes mentes maestras de Invera, o a un par de devs, lo que sea más fácil de conseguir.
-- Podes contactarnos en caso que tengas alguna consulta.
+1. Clone the repository:
+```bash
+ git clone https://github.com/Diegoolei/todo-challenge
+ cd todo-challenge
+ pip install -r requirements.txt
+```
 
-## Objetivos:
+2. Execute the postgresql database creation script:
+```bash
+  psql -f pg_database.sql
+```
 
-El usuario de la aplicación tiene que ser capaz de:
+3. Execute django commands:
+```bash
+  python manage.py collectstatic --noinput
+  python manage.py migrate --noinput
+```
 
-- Autenticarse
-- Crear una tarea
-- Eliminar una tarea
-- Marcar tareas como completadas
-- Poder ver una lista de todas las tareas existentes
-- Filtrar/buscar tareas por fecha de creación y/o por el contenido de la misma
+4. Create django superuser:
+```bash
+  python manage.py createsuperuser
+```
+And follow the instructions from de CMD
 
-## Qué evaluamos:
+5. Create corresponding env file:
+  - Using .example.env.local as reference, create a file called ".env.local" in the root of the project.
 
-- Desarrollo utilizando Python, Django. No es necesario crear un Front-End, pero sí es necesario tener una API que permita cumplir con los objetivos de arriba.
-- Uso de librerías y paquetes estandares que reduzcan la cantidad de código propio añadido.
-- Calidad y arquitectura de código. Facilidad de lectura y mantenimiento del código. Estándares seguidos.
-- [Bonus] Manejo de logs.
-- [Bonus] Creación de tests (unitarias y de integración)
-- [Bonus] Unificar la solución propuesta en una imagen de Docker por repositorio para poder ser ejecutada en cualquier ambiente (si aplica para full stack).
+## Non Dockerized Usage
+To run the project, use the following command:
+```bash
+  gunicorn --bind 0.0.0.0:8000 todolist.wsgi
+```
 
-## Requerimientos de entrega:
+Then, the server will be running at localhost:8000
 
-- Hacer un fork del proyecto y pushearlo en github. Puede ser privado.
-- La solución debe correr correctamente.
-- El Readme debe contener todas las instrucciones para poder levantar la aplicación, en caso de ser necesario, y explicar cómo se usa.
-- Disponibilidad para realizar una pequeña demo del proyecto al finalizar el challenge.
-- Tiempo para la entrega: Aproximadamente 7 días.
+## Dockerized installation
+0. Prequisites:
+  - Docker
+
+1. Clone the repository:
+```bash
+ git clone https://github.com/Diegoolei/todo-challenge
+ cd todo-challenge
+```
+
+1. Create corresponding env file:
+  - Using .example.env.prod as reference, create a file called ".env.prod" in the root of the project.
+
+2. Build docker image with privilages:
+```bash
+  sudo docker compose build
+```
+
+## Dockerized Usage
+To run the project, use the following command with privilages:
+```bash
+  sudo docker compose up
+```
+
+Then, the server will be running at localhost:8001
+
+## Contributing
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-name`.
+3. Make your changes.
+4. Push your branch: `git push origin feature-name`.
+5. Create a pull request.
+
+## License
+This project is licensed under the [MIT License](LICENSE).
+
+![Build Status](https://travis-ci.org/yourusername/yourproject.svg?branch=main)
