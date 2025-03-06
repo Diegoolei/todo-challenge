@@ -65,8 +65,9 @@ Then, the server will be running at localhost:8000
 
 ## Dockerized installation
 
-1. Prequisites: 
-  - Docker
+1. Prequisites:
+
+- Docker
 
 2. Clone the repository:
 
@@ -76,7 +77,8 @@ Then, the server will be running at localhost:8000
 ```
 
 3. Create corresponding env file:
-  - Using .example.env.prod as reference, create a file called ".env.prod" in the root of the project.
+
+- Using .example.env.prod as reference, create a file called ".env.prod" in the root of the project.
 
 4. Build docker image with privilages:
 
@@ -98,6 +100,16 @@ Finally, create the superuser account by executing:
 ```bash
   sudo docker compose run django-web python manage.py createsuperuser
 ```
+
+## Documentation
+
+While the server is running, direct to the [swagger documentation endpoint](http://127.0.0.1:8001/api/docs/) or execute the command
+
+```bash
+  python manage.py spectacular --file schema.json
+```
+
+and upload the generated file as a [postman collection](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-and-exporting-overview/#importing-data-into-postman)
 
 ## Contributing
 

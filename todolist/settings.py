@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_filters",
+    "drf_spectacular",
     "rest_framework",
     "todo_api",
 ]
@@ -109,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated"
     ],
@@ -209,4 +211,43 @@ LOGGING = {
             "propagate": False,
         },
     },
+}
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Todo List API",
+    "DESCRIPTION": "A simple todolist API to manage your tasks",
+    "VERSION": "1.0.0",
+    "SCHEMA_PATH_PREFIX": None,
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "COMPONENT_SPLIT_PATCH": True,
+    "DEFAULT_AUHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "SERVE_URLCONF": "todolist.urls",
+    "SERVE_VIEW": "drf_spectacular.views.spectacular_view",
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "persistAuthorization": True,
+        "displayRequestDuration": True,
+        "filter": True,
+        "showExtensions": True,
+        "showCommonExtensions": True,
+        "tagsSorter": "alpha",
+        "operationsSorter": "alpha",
+        "SWAGGER_UI_DIST": "https://unpkg.com/swagger-ui-dist@latest",
+    },
+    "REDOC_SETTINGS": {
+        "theme": "dark",
+    },
+    "REDOC_PATH": "redoc/",
+    "PAGINATOR_INSPECTORS": [
+        "drf_spectacular.inspectors.DjangoRestResponsePaginationInspector"
+    ],
+    "SORT_OPERATIONS": True,
+    "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
 }

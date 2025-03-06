@@ -6,8 +6,6 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 
 from .models import Tag, Task
 from .serializers import TagSerializer, TaskSerializer
@@ -34,7 +32,7 @@ class TaskListCreate(ListCreateAPIView):
         authenticated user.
         """
         if not self.request.user.is_authenticated:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Task.objects.none()
         return Task.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer: TaskSerializer):
@@ -56,7 +54,7 @@ class TaskRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         Filters the queryset to return only tasks owned by the current user.
         """
         if not self.request.user.is_authenticated:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Task.objects.none()
         return Task.objects.filter(user=self.request.user)
 
 
@@ -78,7 +76,9 @@ class TagListCreate(ListCreateAPIView):
 
         Returns a queryset containing only the tags associated with the
         authenticated user.
-        """
+        """        
+        if not self.request.user.is_authenticated:
+            return Tag.objects.none()
         return Tag.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer: TagSerializer):
@@ -99,4 +99,6 @@ class TagRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         """
         Filters the queryset to return only tags owned by the current user.
         """
+        if not self.request.user.is_authenticated:
+            return Tag.objects.none()
         return Tag.objects.filter(user=self.request.user)

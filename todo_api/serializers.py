@@ -1,5 +1,6 @@
 from typing import Any
 
+from drf_spectacular.utils import extend_schema_field
 from rest_framework.serializers import (
     CurrentUserDefault,
     HiddenField,
@@ -34,6 +35,7 @@ class TaskSerializer(ModelSerializer):
         extra_fields = ["tags_detail"]
         read_only_fields = ["id", "created_at"]
 
+    @extend_schema_field(TagSerializer(many=True))
     def get_tags_detail(self, obj: Task):
         """Uses SerializerMethodField to return tags as a list of dictionaries"""
         return TagSerializer(obj.tags.all(), many=True).data
