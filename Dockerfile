@@ -41,16 +41,14 @@ COPY --chown=appuser:appuser . .
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
-# Switch to non-root user
-USER appuser
-
-# Expose the application port
-EXPOSE 8000 
-
 # Make entry file executable
 RUN mkdir -p /app/logs && chmod -R 777 /app/logs
 RUN mkdir -p /app/staticfiles && chmod -R 777 /app/staticfiles
 RUN chmod +x  /app/entrypoint.prod.sh
+
+# Expose the application port
+EXPOSE 8000 
+
 
 # Start the application using Gunicorn
 CMD ["/app/entrypoint.prod.sh"]
