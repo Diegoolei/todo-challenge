@@ -25,23 +25,24 @@ A short description of your project goes here.
 
 2. Execute the postgresql database creation script:
 ```bash
-  psql -f pg_database.sql
+  sudo -u postgres psql -f pg_database.sql
 ```
 
-3. Execute django commands:
+3. Create corresponding env file:
+  - Using .example.env.local as reference, create a file called ".env.local" in the root of the project.
+
+4. Execute django commands:
 ```bash
   python manage.py collectstatic --noinput
   python manage.py migrate --noinput
 ```
 
-4. Create django superuser:
+5. Create django superuser:
 ```bash
   python manage.py createsuperuser
 ```
 And follow the instructions from de CMD
 
-5. Create corresponding env file:
-  - Using .example.env.local as reference, create a file called ".env.local" in the root of the project.
 
 ## Non Dockerized Usage
 To run the project, use the following command:
