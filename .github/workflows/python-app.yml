@@ -13,14 +13,14 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
+      - name: Copy .env for tests
+        run: cp .example.env.prod .env.prod
+
       - name: Build Docker images
         run: docker compose build
 
       - name: Start PostgreSQL and app
-        run: docker compose up -d db
-
-      - name: Copy .env for tests
-        run: cp .example.env.prod .env.prod
+        run: docker compose up
 
       - name: Run Tox inside Docker
         env:
