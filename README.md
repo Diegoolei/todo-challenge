@@ -117,6 +117,20 @@ While the server is running, direct to the [swagger documentation endpoint](http
   python manage.py spectacular --file schema.json
 ```
 
+## Tests
+
+To run all the tests, execute the following command:
+
+```bash
+  tox
+```
+
+if running in docker instance:
+
+```bash
+sudo docker compose run --rm django-web tox
+```
+
 and upload the generated file as a [postman collection](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-and-exporting-overview/#importing-data-into-postman)
 
 ## Contributing
