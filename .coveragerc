@@ -1,0 +1,17 @@
+[run]
+source = todo_api
+omit = 
+    */migrations/*
+    */tests/*
+    */admin.py
+    */apps.py
+    */urls.py
+
+[report]
+show_missing = True
+fail_under = 90
+precision = 2
+
+[html]
+directory = htmlcov
+title = Coverage Report for todo_api

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "todo_api"
+version = "0.1.0"
+description = "TODO list API"
+authors = [{ name = "Diego Oleiarz", email = "diegooleiarz@hotmail.com" }]
+
+[tool.setuptools.packages.find]
+include = ["todo_api*"]
+exclude = ["logs", "media", "staticfiles", "todolist"]
+
+[tool.black]
+exclude = '''
+/(
+    __pycache__
+  | \.git
+  | \.tox
+  | migrations
+  | staticfiles
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["todo_api"]
+known_third_party = ["django", "rest_framework"]

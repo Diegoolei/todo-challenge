@@ -99,7 +99,10 @@ WSGI_APPLICATION = "todolist.wsgi.application"
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
-
+DATABASES["default"]["TEST"] = {
+    "NAME": "invera_todo_test",
+    "CHARSET": "UTF8",
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -121,9 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated"
-    ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",

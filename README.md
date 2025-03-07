@@ -13,6 +13,14 @@ A short description of your project goes here.
   - [Contributing](#contributing)
   - [License](#license)
 
+## Achievements
+
+All "User functionalities" implemented
+Code lenght shortened by usage of external libraries, for example, allauth for user authentification.
+Required test coverage of 90% reached. Total coverage: 92.68%
+Dockerized and non dockerized execution
+Logging
+
 ## Non Dockerized Installation
 
 0. Prequisites:

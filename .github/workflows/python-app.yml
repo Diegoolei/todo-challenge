@@ -1,0 +1,44 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12"] # Versión de Python que usará Tox
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox  # Instala Tox
+          pip install -r requirements.txt  # Instala dependencias del proyecto
+          pip install django==5.1.6 dj_database_url python-dotenv  # Añade dependencias específicas
+
+      - name: Run Tox
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/testdb
+        run: tox -e py312-django51,coverage
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install tox
+      - run: tox -e lint # Ejecuta solo linting

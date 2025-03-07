@@ -84,9 +84,7 @@ class Migration(migrations.Migration):
                 ("related_url", models.URLField(blank=True, null=True)),
                 (
                     "image",
-                    models.ImageField(
-                        blank=True, null=True, upload_to="tasks/images/"
-                    ),
+                    models.ImageField(blank=True, null=True, upload_to="tasks/images/"),
                 ),
                 ("extra_data", models.JSONField(blank=True, null=True)),
                 (

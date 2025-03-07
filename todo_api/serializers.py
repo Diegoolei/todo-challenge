@@ -37,7 +37,7 @@ class TaskSerializer(ModelSerializer):
 
     @extend_schema_field(TagSerializer(many=True))
     def get_tags_detail(self, obj: Task):
-        """Uses SerializerMethodField to return tags as a list of dictionaries"""
+        """Uses SerializerMethodField to return tags as list of dictionaries"""
         return TagSerializer(obj.tags.all(), many=True).data
 
     def create(self, validated_data: dict[str, Any]) -> Task:

@@ -4,3 +4,13 @@ staticfiles/
 media/
 .vscode/
 logs/debug.logs
+
+# Byte-compiled / optimized / DLL files
+.tox/
+htmlcov/
+.coverage
+coverage.xml
+todo_api.egg-info/dependency_links.txt
+todo_api.egg-info/PKG-INFO
+todo_api.egg-info/SOURCES.txt
+todo_api.egg-info/top_level.txt

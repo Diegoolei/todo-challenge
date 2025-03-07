@@ -38,22 +38,16 @@ class Task(Model):
         default=2,
         choices=PRIORITY_CHOICES,
         validators=[
-            MinValueValidator(
-                1, message="Value must be greater or equal to 1"
-            ),
+            MinValueValidator(1, message="Value must be greater or equal to 1"),
             MaxValueValidator(3, message="Value must be less or equal to 3"),
         ],
     )
     completed = BooleanField(default=False)
-    created_at = DateTimeField(
-        auto_now_add=True, help_text="Task creation date"
-    )
+    created_at = DateTimeField(auto_now_add=True, help_text="Task creation date")
     finish_at = DateTimeField(blank=True, null=True)
     parent_task = ForeignKey("self", on_delete=CASCADE, null=True, blank=True)
 
-    attachment = FileField(
-        upload_to="tasks/attachments/", null=True, blank=True
-    )
+    attachment = FileField(upload_to="tasks/attachments/", null=True, blank=True)
     related_url = URLField(max_length=200, null=True, blank=True)
     image = ImageField(upload_to="tasks/images/", null=True, blank=True)
     extra_data = JSONField(null=True, blank=True)
