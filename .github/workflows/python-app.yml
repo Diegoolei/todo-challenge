@@ -25,7 +25,7 @@ jobs:
       - name: Run Tox inside Docker
         env:
           DATABASE_URL: postgres://invera:invera@db:5432/invera_todo
-        run: docker compose run --rm app tox -e py312-django51,coverage
+        run: docker compose run --rm django-web tox -e py312-django51,coverage
 
       - name: Stop containers
         run: docker compose down
