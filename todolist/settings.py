@@ -45,9 +45,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Third-party apps
     "django_filters",
     "drf_spectacular",
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt.token_blacklist",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    # Local apps
     "todo_api",
 ]
 
@@ -60,6 +69,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "todolist.urls"
@@ -125,12 +135,26 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Authentication settings
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = "jwt-auth-token"
+JWT_AUTH_REFRESH_COOKIE = "jwt-refresh-token"
+
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = ["username", "email"]
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+SITE_ID = 1
+
+# SMTP settings
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -219,7 +243,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "A simple todolist API to manage your tasks",
     "VERSION": "1.0.0",
     "SCHEMA_PATH_PREFIX": None,
-    "SERVE_INCLUDE_SCHEMA": False,
+    "SERVE_INCLUDE_SCHEMA": True,
     "COMPONENT_SPLIT_REQUEST": True,
     "COMPONENT_SPLIT_PATCH": True,
     "DEFAULT_AUHENTICATION_CLASSES": [

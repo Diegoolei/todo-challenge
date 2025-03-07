@@ -33,9 +33,9 @@ urlpatterns = [
     path(
         "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
     ),
-    path(
-        "api-auth/", include("rest_framework.urls", namespace="rest_framework")
-    ),
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api-auth/", include("rest_framework.urls")),
     path("api/", include("todo_api.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
