@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import (
@@ -6,6 +7,8 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Tag, Task
 from .serializers import TagSerializer, TaskSerializer
@@ -58,6 +61,23 @@ class TaskRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         return Task.objects.filter(user=self.request.user)
 
 
+class MarkTaskAsCompletedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(request=TaskSerializer, responses=TaskSerializer)
+    def post(self, request, pk):
+        try:
+            task = Task.objects.get(pk=pk, user=request.user)
+            task.completed = True
+            task.save()
+            serializer = TaskSerializer(task)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Task.DoesNotExist:
+            return Response(
+                {"error": "Task not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+
 class TagListCreate(ListCreateAPIView):
     """
     Supports filtering (priority, completed, created_at, finish_at),
@@ -76,7 +96,7 @@ class TagListCreate(ListCreateAPIView):
 
         Returns a queryset containing only the tags associated with the
         authenticated user.
-        """        
+        """
         if not self.request.user.is_authenticated:
             return Tag.objects.none()
         return Tag.objects.filter(user=self.request.user)
