@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI with Docker
 
 on:
   push:
@@ -9,30 +9,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["3.12"] # Versión de Python que usará Tox
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
+      - name: Build Docker images
+        run: docker-compose build
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install tox  # Instala Tox
-          pip install -r requirements.txt  # Instala dependencias del proyecto
-          pip install django==5.1.6 dj_database_url python-dotenv  # Añade dependencias específicas
-      - name: Create .env from example
-        run: cp .example.env.local .env.local
-      - name: Run Tox
+      - name: Start PostgreSQL and app
+        run: docker-compose up -d db
+
+      - name: Copy .env for tests
+        run: cp .example.env.prod .env.prod
+
+      - name: Run Tox inside Docker
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/testdb
-        run: tox -e py312-django51,coverage
+          DATABASE_URL: postgres://invera:invera@db:5432/invera_todo
+        run: docker-compose run --rm app tox -e py312-django51,coverage
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3
 
   lint:
     runs-on: ubuntu-latest
@@ -42,4 +38,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install tox
-      - run: tox -e lint # Ejecuta solo linting
+      - run: tox -e lint
