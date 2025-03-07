@@ -27,7 +27,8 @@ jobs:
           pip install tox  # Instala Tox
           pip install -r requirements.txt  # Instala dependencias del proyecto
           pip install django==5.1.6 dj_database_url python-dotenv  # Añade dependencias específicas
-
+      - name: Create .env from example
+        run: cp .example.env.prod .env.prod
       - name: Run Tox
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/testdb
