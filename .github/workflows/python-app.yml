@@ -19,13 +19,16 @@ jobs:
       - name: Build Docker images
         run: docker compose build
 
-      - name: Start PostgreSQL and app
-        run: docker compose up
+      - name: Start services in detached mode
+        run: docker compose up -d
 
       - name: Run Tox inside Docker
         env:
           DATABASE_URL: postgres://invera:invera@db:5432/invera_todo
         run: docker compose run --rm app tox -e py312-django51,coverage
+
+      - name: Stop containers
+        run: docker compose down
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3
